@@ -11,7 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
-from config import allowed_hosts, installed_apps, middlewares, db_settings, password_validations
+from config import allowed_hosts, installed_apps, rest_settings, middlewares, db_settings, password_validations, \
+    cors_settings
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -28,10 +29,16 @@ DEBUG = True
 
 ALLOWED_HOSTS = allowed_hosts.ALLOWED_HOSTS
 
+CORS_ORIGIN_WHITELIST = cors_settings.CORS_ORIGIN_WHITELIST
+CORS_ALLOW_HEADERS = cors_settings.CORS_ALLOW_HEADERS
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 # Application definition
 
 INSTALLED_APPS = installed_apps.INSTALLED_APPS
+
+REST_FRAMEWORK = rest_settings.REST_FRAMEWORK
 
 MIDDLEWARE = middlewares.MIDDLEWARE
 
@@ -60,12 +67,7 @@ WSGI_APPLICATION = 'theta.wsgi.application'
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 # DATABASES = db_settings.DATABASES
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES = db_settings.DATABASES
 
 
 # Password validation

@@ -1,1 +1,1 @@
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*', 'http://localhost:4200/']
