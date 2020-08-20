@@ -12,12 +12,12 @@ class SuccessCodes(enum.Enum):
     Default = 0
 
 
-DEFAULT_ERROR_MESSAGE = _("Something Went Wrong. Please Try Again Later")
-DEFAULT_SUCCESS_MESSAGE = _("Operation Completed Successfully")
+DEFAULT_ERROR_MESSAGE = "Something Went Wrong. Please Try Again Later"
+DEFAULT_SUCCESS_MESSAGE = "Operation Completed Successfully"
 
 ERROR_MESSAGES_DICT = {
-    ErrorCodes.Success.value: _("Success"),
-    ErrorCodes.InvalidRequestParams.value: _("Invalid Request"),
+    ErrorCodes.Success.value: "Success",
+    ErrorCodes.InvalidRequestParams.value: "Invalid Request",
     ErrorCodes.DefaultError.value: DEFAULT_ERROR_MESSAGE,
 }
 

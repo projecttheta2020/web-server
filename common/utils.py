@@ -3,6 +3,7 @@ from rest_framework.response import Response
 
 from common.consts import ErrorCodes, SuccessCodes, ERROR_MESSAGES_DICT, SUCCESS_MESSAGES_DICT, DEFAULT_ERROR_MESSAGE, DEFAULT_SUCCESS_MESSAGE
 
+
 def get_error_response(error_code=ErrorCodes.InvalidRequestParams.value,
                         error_msg=None,
                         status=status.HTTP_400_BAD_REQUEST):
