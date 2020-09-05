@@ -26,11 +26,11 @@ class LoginView(APIView):
                         msg='User Already Exists'
                     )
                 )
-            user = User.objects.create_user(username=username, password=request.data['password'])
+            user = User.objects.create_user(username=username, password=request.data['password'], email=username)
             user.save()
             token = Token.objects.create(user=user)
             token.save()
-            response = {'email': username, 'accessToken': token.key}
+            response = {'id': user.id, 'email': username, 'accessToken': token.key}
             return Response(response, status=status.HTTP_200_OK)
         else:
             user = AccountValidator(request).get()
