@@ -20,6 +20,7 @@ from django.conf.urls import url, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^api/accounts/', include('accounts.urls')),
+    url(r'^api/teacher_profile/', include('teacher_profile.urls')),
 ]
 
 admin.site.site_header = 'Theta Server Admin Portal'

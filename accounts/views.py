@@ -1,16 +1,15 @@
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.generics import CreateAPIView
 from rest_framework.views import APIView
 
-from accounts.utils import get_user_token, delete_user_token
+from accounts.utils import delete_user_token
 from common.consts import ErrorCodes
 from common.utils import resolve_response
 from permissioning.permissions import default_permissions, auth_permissions
 from accounts.utils import AccountValidator
+from teacher_profile.utils import create_teacher
 
 
 class LoginView(APIView):
@@ -30,8 +29,12 @@ class LoginView(APIView):
             user.save()
             token = Token.objects.create(user=user)
             token.save()
+            if request.data['is_teacher']:
+                create_teacher(user, username)
+            # else:
+            #     create_school()
             response = {'id': user.id, 'email': username, 'accessToken': token.key}
-            return Response(response, status=status.HTTP_200_OK)
+
         else:
             user = AccountValidator(request).get()
             if user is None:
@@ -51,12 +54,8 @@ class LoginView(APIView):
             token = Token.objects.create(user=user)
             token.save()
             response = {'email': user.username, 'accessToken': token.key}
-            return Response(response, status=status.HTTP_200_OK)
 
-        # if not request.data['create_user'] and not self.user_exists():
-        #     return resolve_response(**dict(error=True, msg='Please register first'))
-        # if request.data['create_user'] and self.user_exists():
-        #     return resolve_response(**dict(error=True, msg='User already exists'))
+        return Response(response, status=status.HTTP_200_OK)
 
 
 class LogoutView(APIView):
@@ -70,3 +69,4 @@ class LogoutView(APIView):
             )
         else:
             return Response(status=status.HTTP_200_OK)
+

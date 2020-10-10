@@ -3,9 +3,13 @@ from rest_framework import permissions
 from rest_framework.permissions import IsAuthenticated
 
 from accounts.models import ApiSecretToken
+from teacher_profile.models import TeacherProfileDetails
 
 
 class ApiTokenPermission(permissions.BasePermission):
+    """
+        Allows access only to users having api token.
+    """
     message = {'error': 'API not authorised'}
 
     def has_permission(self, request, view):
@@ -26,5 +30,17 @@ class ApiTokenPermission(permissions.BasePermission):
             return False
 
 
+class IsTeacher(permissions.BasePermission):
+    """
+    Allows access only to teachers.
+    """
+
+    def has_permission(self, request, view):
+        if TeacherProfileDetails.objects.filter(user=request.user).count():
+            return True
+        return False
+
+
 default_permissions = [ApiTokenPermission, ]
 auth_permissions = [ApiTokenPermission, IsAuthenticated, ]
+teacher_permissions = [ApiTokenPermission, IsAuthenticated, IsTeacher]
