@@ -9,5 +9,5 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'permissioning',
     'accounts',
-    'teachers',
+    'teacher_profile',
 ]

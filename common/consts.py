@@ -2,6 +2,7 @@ import enum
 
 '''Define Enums here using enum.Enum Class'''
 
+
 class ErrorCodes(enum.Enum):
     Success = 0
     InvalidRequestParams = 1

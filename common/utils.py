@@ -4,17 +4,14 @@ from rest_framework.response import Response
 from common.consts import ErrorCodes, SuccessCodes, ERROR_MESSAGES_DICT, SUCCESS_MESSAGES_DICT, DEFAULT_ERROR_MESSAGE, DEFAULT_SUCCESS_MESSAGE
 
 
-def get_error_response(error_code=ErrorCodes.InvalidRequestParams.value,
-                        error_msg=None,
-                        status=status.HTTP_400_BAD_REQUEST):
+def get_error_response(error_code=ErrorCodes.InvalidRequestParams.value, error_msg=None,
+                       status=status.HTTP_400_BAD_REQUEST):
     if error_msg is None:
         error_msg = ERROR_MESSAGES_DICT.get(error_code, DEFAULT_ERROR_MESSAGE)
         return Response(dict(error_code=error_code, error=error_msg), status=status)
 
 
-def get_success_response(response_dict=None,
-                            success_code=SuccessCodes.Default.value,
-                            status=status.HTTP_200_OK):
+def get_success_response(response_dict=None, success_code=SuccessCodes.Default.value, status=status.HTTP_200_OK):
     if response_dict is None:
         response_dict = {}
     if isinstance(response_dict, dict):
@@ -40,3 +37,10 @@ def resolve_response(*args, **kwargs):
     else:
         success_code = kwargs.get("success_code", SuccessCodes.Default.value)
         return get_success_response(data, success_code)
+
+
+def get_choices_from_enum(enum_class):
+    result = []
+    for data in enum_class:
+        result.append((data.value, data.name))
+    return result
