@@ -33,8 +33,7 @@ class TeacherOnboarding(APIView):
             teacher_status.onboarding_status = Status.Completed.value
             teacher_status.save()
 
-        #return Response(status=status.HTTP_200_OK)
-        return Response(status=status.HTTP_400_BAD_REQUEST)
+        return Response(status=status.HTTP_200_OK)
 
     def get(self, request):
         try:
