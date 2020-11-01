@@ -10,9 +10,13 @@ def create_teacher(user, email):
 
 
 def update_teacher_profile_details(user, **kwargs):
-    try:
-        TeacherProfileDetails.objects.filter(user=user).update(kwargs)
-    except Exception as e:
-        print('error: ', e)
+    TeacherProfileDetails.objects.filter(user=user).update(kwargs)
     return
+
+
+def get_teacher_status(user):
+    try:
+        return TeacherStatus.objects.get(user=user)
+    except TeacherStatus.DoesNotExist:
+        return None
 

@@ -4,7 +4,8 @@ from rest_framework.views import APIView
 
 from common.utils import resolve_response
 from permissioning.permissions import teacher_permissions
-from teacher_profile.models import TeacherProfileDetails
+from teacher_profile.enums import Status
+from teacher_profile.models import TeacherProfileDetails, TeacherStatus
 from teacher_profile.saerializer import TeacherOnboardingSerializer
 
 
@@ -25,10 +26,12 @@ class TeacherOnboarding(APIView):
                     msg='Teacher Does Not Exist'
                 )
             )
-
         serializer = self.serializer_class(data=request.data, instance=instance)
         if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
+            teacher_status = TeacherStatus.objects.get_or_create(user=request.user)[0]
+            teacher_status.onboarding_status = Status.Completed.value
+            teacher_status.save()
 
         return Response(status=status.HTTP_200_OK)
 

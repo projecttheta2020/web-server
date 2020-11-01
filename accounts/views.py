@@ -9,7 +9,8 @@ from common.consts import ErrorCodes
 from common.utils import resolve_response
 from permissioning.permissions import default_permissions, auth_permissions
 from accounts.utils import AccountValidator
-from teacher_profile.utils import create_teacher
+from teacher_profile.enums import Status
+from teacher_profile.utils import create_teacher, get_teacher_status
 
 
 class LoginView(APIView):
@@ -33,7 +34,8 @@ class LoginView(APIView):
                 create_teacher(user, username)
             # else:
             #     create_school()
-            response = {'id': user.id, 'email': username, 'accessToken': token.key}
+            response = {'id': user.id, 'email': username, 'accessToken': token.key,
+                        'onboarding_status': Status.Pending.value}
 
         else:
             user = AccountValidator(request).get()
@@ -53,7 +55,10 @@ class LoginView(APIView):
                 )
             token = Token.objects.create(user=user)
             token.save()
+
             response = {'email': user.username, 'accessToken': token.key}
+            teacher_status = get_teacher_status(user)
+            response['onboarding_status'] = teacher_status.onboarding_status if teacher_status else Status.Pending.value
 
         return Response(response, status=status.HTTP_200_OK)
 
@@ -69,4 +74,5 @@ class LogoutView(APIView):
             )
         else:
             return Response(status=status.HTTP_200_OK)
+
 
