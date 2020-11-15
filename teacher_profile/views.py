@@ -6,7 +6,7 @@ from common.utils import resolve_response
 from permissioning.permissions import teacher_permissions
 from teacher_profile.enums import Status
 from teacher_profile.models import TeacherProfileDetails, TeacherStatus
-from teacher_profile.saerializer import TeacherOnboardingSerializer
+from teacher_profile.serializer import TeacherOnboardingSerializer
 
 
 class TeacherOnboarding(APIView):

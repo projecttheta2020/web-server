@@ -30,6 +30,10 @@ class ApiTokenPermission(permissions.BasePermission):
             return False
 
 
+class IsAuthenticatedUser(IsAuthenticated):
+    message = {'error': 'You are not authenticated'}
+
+
 class IsTeacher(permissions.BasePermission):
     """
     Allows access only to teachers.
@@ -42,5 +46,5 @@ class IsTeacher(permissions.BasePermission):
 
 
 default_permissions = [ApiTokenPermission, ]
-auth_permissions = [ApiTokenPermission, IsAuthenticated, ]
+auth_permissions = [ApiTokenPermission, IsAuthenticatedUser, ]
 teacher_permissions = [ApiTokenPermission, IsAuthenticated, IsTeacher]

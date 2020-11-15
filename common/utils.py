@@ -9,6 +9,7 @@ def get_error_response(error_code=ErrorCodes.InvalidRequestParams.value, error_m
     if error_msg is None:
         error_msg = ERROR_MESSAGES_DICT.get(error_code, DEFAULT_ERROR_MESSAGE)
         return Response(dict(error_code=error_code, error=error_msg), status=status)
+    return Response(dict(error_code=error_code, error_msg=error_msg), status=status)
 
 
 def get_success_response(response_dict=None, success_code=SuccessCodes.Default.value, status=status.HTTP_200_OK):
